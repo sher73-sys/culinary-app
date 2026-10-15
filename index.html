@@ -36,6 +36,15 @@
             font-weight: 500; cursor: pointer; transition: 0.2s;
         }
         .recipe-list li:active { background: #ffe0b2; }
+        
+        /* Стили для выпадающего рецепта */
+        .recipe-content {
+            display: none; background: #fff; padding: 15px; 
+            margin-top: -6px; margin-bottom: 10px;
+            border-radius: 0 0 6px 6px; border-left: 4px solid #FF9800;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .recipe-content.active { display: block; }
     </style>
 </head>
 <body>
@@ -55,7 +64,6 @@
             </p>
         </div>
 
-        <!-- МЕНЮ ВСЕХ ВАШИХ РЕЦЕПТОВ -->
         <div class="section-title">🥘 Перші страви</div>
         <ul class="recipe-list">
             <li>Борщ</li>
@@ -67,7 +75,26 @@
 
         <div class="section-title">🥩 Другі страви & Закуски</div>
         <ul class="recipe-list">
-            <li>Плов</li>
+            <!-- Добавили обработку клика для Плова -->
+            <li onclick="toggleRecipe('plov')">Плов (Натисніть, щоб відкрити)</li>
+            <div id="plov" class="recipe-content">
+                <h4>інгредієнти:</h4>
+                <ul>
+                    <li>М'ясо (свинина/яловичина/баранина) — 500 г</li>
+                    <li>Рис (довгозернистий) — 500 г</li>
+                    <li>Морква — 500 г</li>
+                    <li>Цибуля — 2-3 шт.</li>
+                    <li>Часник — 1-2 головки</li>
+                    <li>Олія — 150 мл</li>
+                    <li>Спеції (зіра, барбарис, куркума) — за смаком</li>
+                </ul>
+                <h4>Приготування:</h4>
+                <p>1. Розігрійте олію в казані, обсмажте нарізану цибулю до золотистого кольору, потім додайте м'ясо шматочками.</p>
+                <p>2. Додайте моркву соломкою, смажте до м'якості. Залийте водою, додайте спеції та тушкуйте 20-30 хвилин (зірвак).</p>
+                <p>3. Промийте рис, викладіть рівним шаром поверх м'яса з морквою, не перемішуючи. Вставте всередину головки часнику.</p>
+                <p>4. Залийте окропом, щоб вода покривала рис на 1.5-2 см. Варіть на великому вогні, поки вода не вбереться.</p>
+                <p>5. Зменшіть вогонь до мінімуму, накрийте кришкою і тримайте ще 20 хвилин до повної готовності.</p>
+            </div>
             <li>Домашні котлети</li>
             <li>Шакшука</li>
             <li>Форшмак в шубі</li>
@@ -99,15 +126,20 @@
     </div>
 
     <script>
-        // Простая математика калькулятора (работает полностью БЕЗ интернета)
+        // Функция для открытия/закрытия рецепта
+        function toggleRecipe(id) {
+            const content = document.getElementById(id);
+            content.classList.toggle('active');
+        }
+
+        // Простая математика калькулятора
         function runCalculator() {
             let weight = document.getElementById('baseWeight').value;
-            // Пример расчета: воды нужно в 2 раза больше веса крупы, соли - 1%
             document.getElementById('waterResult').innerText = (weight * 2).toFixed(0);
             document.getElementById('saltResult').innerText = (weight * 0.01).toFixed(1);
         }
 
-        // Автономный Service Worker (PWA)
+        // Автономный Service Worker
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('sw.js');
         }
