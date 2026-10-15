@@ -8,57 +8,106 @@
     <meta name="theme-color" content="#FF9800">
     <style>
         body {
-            font-family: Arial, sans-serif;
-            margin: 0; padding: 0;
-            background-color: #f7f9fa; color: #333;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0; padding: 0; background-color: #f4f6f8; color: #333;
         }
         header {
-            background-color: #FF9800; color: white;
-            padding: 15px; text-align: center; font-size: 20px; font-weight: bold;
+            background-color: #FF9800; color: white; padding: 18px;
+            text-align: center; font-size: 22px; font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
-        .container { padding: 20px; }
-        .menu-item {
-            background: white; padding: 15px; margin-bottom: 10px;
-            border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        .container { padding: 15px; max-width: 600px; margin: 0 auto; }
+        .section-title {
+            font-size: 18px; color: #FF9800; margin: 15px 0 8px 0;
+            border-bottom: 2px solid #FF9800; padding-bottom: 4px;
         }
-        input, button {
-            padding: 10px; margin: 5px 0; width: 100%; box-sizing: border-box;
-            border-radius: 5px; border: 1px solid #ccc;
+        .card {
+            background: white; padding: 15px; margin-bottom: 12px;
+            border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
-        button { background-color: #FF9800; color: white; font-weight: bold; border: none; }
+        .calc-box input {
+            padding: 12px; margin: 8px 0; width: 100%; box-sizing: border-box;
+            border-radius: 6px; border: 1px solid #ccc; font-size: 16px;
+        }
+        .recipe-list { list-style: none; padding: 0; margin: 0; }
+        .recipe-list li {
+            padding: 12px; background: #fff; margin-bottom: 6px;
+            border-radius: 6px; border-left: 4px solid #FF9800;
+            font-weight: 500; cursor: pointer; transition: 0.2s;
+        }
+        .recipe-list li:active { background: #ffe0b2; }
     </style>
 </head>
 <body>
 
-    <header>👨‍🍳 Кулінарний Калькулятор (Офлайн)</header>
+    <header>👨‍🍳 КУЛІНАРНИЙ КАЛЬКУЛЯТОР</header>
 
     <div class="container">
-        <!-- Пример встроенного калькулятора -->
-        <div class="menu-item">
-            <h3>Пропорції каші (Приклад)</h3>
-            <label>Вага крупи (грам):</label>
-            <input type="number" id="grup" value="100" oninput="calculate()">
-            <p>Необхідно води: <strong id="water">200</strong> мл</p>
+        
+        <!-- ВСТРОЕННЫЙ ОФЛАЙН КАЛЬКУЛЯТОР -->
+        <div class="card calc-box">
+            <h3 style="margin-top:0;">🧮 Розрахунок пропорцій (СмакМастер)</h3>
+            <label>Вкажіть вагу головного інгредієнта (грам):</label>
+            <input type="number" id="baseWeight" value="100" oninput="runCalculator()">
+            <p style="font-size: 16px; margin-bottom: 0;">
+                Необхідно води: <strong id="waterResult" style="color:#FF9800;">200</strong> мл <br>
+                Сіль (базово 1%): <strong id="saltResult" style="color:#FF9800;">1</strong> г
+            </p>
         </div>
 
-        <!-- Сюда вы можете скопировать ваши рецепты из Google Sites -->
-        <div class="menu-item">
-            <h3>📖 Ваші рецепти:</h3>
-            <ul>
-                <li><strong>Борщ:</strong> Буряк, капуста, картопля...</li>
-                <li><strong>Плов:</strong> Рис, м'ясо, морква, цибуля...</li>
-            </ul>
-        </div>
+        <!-- МЕНЮ ВСЕХ ВАШИХ РЕЦЕПТОВ -->
+        <div class="section-title">🥘 Перші страви</div>
+        <ul class="recipe-list">
+            <li>Борщ</li>
+            <li>Бограч</li>
+            <li>Солянка</li>
+            <li>Морквяний суп</li>
+            <li>Окрошка</li>
+        </ul>
+
+        <div class="section-title">🥩 Другі страви & Закуски</div>
+        <ul class="recipe-list">
+            <li>Плов</li>
+            <li>Домашні котлети</li>
+            <li>Шакшука</li>
+            <li>Форшмак в шубі</li>
+        </ul>
+
+        <div class="section-title">🥗 Салати & Соуси</div>
+        <ul class="recipe-list">
+            <li>Оселедець під шубою</li>
+            <li>Салат Чафан</li>
+            <li>Мариновані кабачки</li>
+            <li>Салат з куркою та грибами</li>
+            <li>Соуси (Ткемалі)</li>
+        </ul>
+
+        <div class="section-title">🍰 Випічка & Напої</div>
+        <ul class="recipe-list">
+            <li>Пшеничний хліб</li>
+            <li>Великодня паска</li>
+            <li>Пухкі оладки</li>
+            <li>Печиво «Ракушка»</li>
+            <li>Тархун</li>
+        </ul>
+
+        <div class="section-title">🔄 Інструменти</div>
+        <ul class="recipe-list" style="margin-bottom: 30px;">
+            <li>Кулінарний конвертер</li>
+        </ul>
+
     </div>
 
     <script>
-        // Функция калькулятора (работает без интернета)
-        function calculate() {
-            let grup = document.getElementById('grup').value;
-            document.getElementById('water').innerText = grup * 2;
+        // Простая математика калькулятора (работает полностью БЕЗ интернета)
+        function runCalculator() {
+            let weight = document.getElementById('baseWeight').value;
+            // Пример расчета: воды нужно в 2 раза больше веса крупы, соли - 1%
+            document.getElementById('waterResult').innerText = (weight * 2).toFixed(0);
+            document.getElementById('saltResult').innerText = (weight * 0.01).toFixed(1);
         }
 
-        // Регистрация Service Worker
+        // Автономный Service Worker (PWA)
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('sw.js');
         }
