@@ -30,21 +30,27 @@
             border-radius: 6px; border: 1px solid #ccc; font-size: 16px;
         }
         .recipe-list { list-style: none; padding: 0; margin: 0; }
-        .recipe-list li {
-            padding: 12px; background: #fff; margin-bottom: 6px;
+        .recipe-list li, details {
+            background: #fff; margin-bottom: 6px;
             border-radius: 6px; border-left: 4px solid #FF9800;
-            font-weight: 500; cursor: pointer; transition: 0.2s;
+            font-weight: 500;
         }
-        .recipe-list li:active { background: #ffe0b2; }
+        .recipe-list li { padding: 12px; }
         
-        /* Стили для выпадающего рецепта */
-        .recipe-content {
-            display: none; background: #fff; padding: 15px; 
-            margin-top: -6px; margin-bottom: 10px;
-            border-radius: 0 0 6px 6px; border-left: 4px solid #FF9800;
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+        /* Стили для супер-надежного раскрывающегося списка */
+        summary {
+            padding: 12px;
+            cursor: pointer;
+            outline: none;
+            user-select: none;
         }
-        .recipe-content.active { display: block; }
+        summary:active { background: #ffe0b2; border-radius: 0 6px 6px 0; }
+        .recipe-content {
+            padding: 15px;
+            background: #fafafa;
+            border-top: 1px solid #eee;
+            font-weight: normal;
+        }
     </style>
 </head>
 <body>
@@ -65,81 +71,77 @@
         </div>
 
         <div class="section-title">🥘 Перші страви</div>
-        <ul class="recipe-list">
+        <div class="recipe-list">
             <li>Борщ</li>
             <li>Бограч</li>
             <li>Солянка</li>
             <li>Морквяний суп</li>
             <li>Окрошка</li>
-        </ul>
+        </div>
 
         <div class="section-title">🥩 Другі страви & Закуски</div>
-        <ul class="recipe-list">
-            <!-- Добавили обработку клика для Плова -->
-            <li onclick="toggleRecipe('plov')">Плов (Натисніть, щоб відкрити)</li>
-            <div id="plov" class="recipe-content">
-                <h4>інгредієнти:</h4>
-                <ul>
-                    <li>М'ясо (свинина/яловичина/баранина) — 500 г</li>
-                    <li>Рис (довгозернистий) — 500 г</li>
-                    <li>Морква — 500 г</li>
-                    <li>Цибуля — 2-3 шт.</li>
-                    <li>Часник — 1-2 головки</li>
-                    <li>Олія — 150 мл</li>
-                    <li>Спеції (зіра, барбарис, куркума) — за смаком</li>
-                </ul>
-                <h4>Приготування:</h4>
-                <p>1. Розігрійте олію в казані, обсмажте нарізану цибулю до золотистого кольору, потім додайте м'ясо шматочками.</p>
-                <p>2. Додайте моркву соломкою, смажте до м'якості. Залийте водою, додайте спеції та тушкуйте 20-30 хвилин (зірвак).</p>
-                <p>3. Промийте рис, викладіть рівним шаром поверх м'яса з морквою, не перемішуючи. Вставте всередину головки часнику.</p>
-                <p>4. Залийте окропом, щоб вода покривала рис на 1.5-2 см. Варіть на великому вогні, поки вода не вбереться.</p>
-                <p>5. Зменшіть вогонь до мінімуму, накрийте кришкою і тримайте ще 20 хвилин до повної готовності.</p>
-            </div>
+        <div class="recipe-list">
+            
+            <!-- Этот блок раскроется на любом телефоне БЕЗ скриптов -->
+            <details>
+                <summary>🍛 Плов (Натисніть, щоб відкрити)</summary>
+                <div class="recipe-content">
+                    <h4>Інгредієнти:</h4>
+                    <ul>
+                        <li>М'ясо — 500 г</li>
+                        <li>Рис — 500 г</li>
+                        <li>Морква — 500 г</li>
+                        <li>Цибуля — 2-3 шт.</li>
+                        <li>Часник — 1-2 головки</li>
+                        <li>Олія — 150 мл</li>
+                        <li>Спеції — за смаком</li>
+                    </ul>
+                    <h4>Приготування:</h4>
+                    <p>1. Розігрійте олію в казані, обсмажте цибулю, додайте м'ясо.</p>
+                    <p>2. Додайте моркву соломкою, смажте до м'якості. Залийте водою, додайте спеції та тушкуйте 20-30 хв.</p>
+                    <p>3. Викладіть промитий рис зверху, вставте часник.</p>
+                    <p>4. Залийте окропом на 1.5-2 см вище рису. Варіть на великому вогні, поки вода не зникне.</p>
+                    <p>5. Накрийте кришкою, зменшіть вогонь до мінімуму і тримайте 20 хвилин.</p>
+                </div>
+            </details>
+
             <li>Домашні котлети</li>
             <li>Шакшука</li>
             <li>Форшмак в шубі</li>
-        </ul>
+        </div>
 
         <div class="section-title">🥗 Салати & Соуси</div>
-        <ul class="recipe-list">
+        <div class="recipe-list">
             <li>Оселедець під шубою</li>
             <li>Салат Чафан</li>
             <li>Мариновані кабачки</li>
             <li>Салат з куркою та грибами</li>
             <li>Соуси (Ткемалі)</li>
-        </ul>
+        </div>
 
         <div class="section-title">🍰 Випічка & Напої</div>
-        <ul class="recipe-list">
+        <div class="recipe-list">
             <li>Пшеничний хліб</li>
             <li>Великодня паска</li>
             <li>Пухкі оладки</li>
             <li>Печиво «Ракушка»</li>
             <li>Тархун</li>
-        </ul>
+        </div>
 
         <div class="section-title">🔄 Інструменти</div>
-        <ul class="recipe-list" style="margin-bottom: 30px;">
+        <div class="recipe-list" style="margin-bottom: 30px;">
             <li>Кулінарний конвертер</li>
-        </ul>
+        </div>
 
     </div>
 
     <script>
-        // Функция для открытия/закрытия рецепта
-        function toggleRecipe(id) {
-            const content = document.getElementById(id);
-            content.classList.toggle('active');
-        }
-
-        // Простая математика калькулятора
         function runCalculator() {
             let weight = document.getElementById('baseWeight').value;
             document.getElementById('waterResult').innerText = (weight * 2).toFixed(0);
             document.getElementById('saltResult').innerText = (weight * 0.01).toFixed(1);
         }
 
-        // Автономный Service Worker
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('sw.js');
         }
