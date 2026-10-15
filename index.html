@@ -4,24 +4,97 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Кулінарний Калькулятор</title>
-    
-    <!-- Манифест для того, чтобы приложение можно было установить -->
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#FF9800">
-    
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f7f9fa;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        .loader {
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #FF9800;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        button {
+            display: none;
+            padding: 12px 24px;
+            font-size: 16px;
+            background-color: #FF9800;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="loader" id="loader"></div>
+    <h3 id="status-text" style="color: #333;">Завантаження Кулінарного Калькулятора...</h3>
+    <button id="install-btn">Встановити як додаток</button>
+
     <script>
-        // Регистрируем Service Worker для поддержки функций PWA
+        let deferredPrompt;
+        const installBtn = document.getElementById('install-btn');
+        const loader = document.getElementById('loader');
+        const statusText = document.getElementById('status-text');
+
+        // Регистрация Service Worker
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('sw.js');
         }
-        
-        // Прямое и безопасное перенаправление без использования заблокированных iframe
-        window.location.replace("https://sites.google.com/view/sher73/%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D0%B0%D1%8F-%D1%81%D1%82%D1%80%D0%B0%D0%BD%D0%B8%D1%86%D0%B0");
+
+        // Ловим событие готовности к установке
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            // Показываем кнопку полноценной установки
+            loader.style.display = 'none';
+            statusText.innerText = 'Додаток готовий до встановлення!';
+            installBtn.style.display = 'block';
+        });
+
+        // Клик по кнопке запускает установку приложения
+        installBtn.addEventListener('click', async () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                deferredPrompt = null;
+                goToSite();
+            }
+        });
+
+        // Если пользователь не хочет устанавливать или приложение уже установлено,
+        // через 3 секунды просто перекидываем его на калькулятор автоматически
+        function goToSite() {
+            window.location.replace("https://google.com");
+        }
+
+        // Авто-переход через 3.5 секунды, чтобы дать Chrome время прочитать манифест
+        setTimeout(() => {
+            if (!deferredPrompt) {
+                goToSite();
+            }
+        }, 3500);
     </script>
-</head>
-<body>
-    <div style="text-align: center; margin-top: 50px; font-family: sans-serif; color: #666;">
-        <p>Завантаження додатка...</p>
-    </div>
 </body>
 </html>
